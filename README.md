@@ -1,7 +1,5 @@
 # FedSCOPE: Federated Cross-Domain Sequential Recommendation
 
-This repository contains a PyTorch implementation of the algorithm proposed in the paper:
-
 ## 📖 Introduction
 
 FedSCOPE is a federated learning framework designed for Cross-Domain Sequential Recommendation (CDSR). It addresses three key challenges: data sparsity, domain heterogeneity, and the trade-off between privacy and utility.
