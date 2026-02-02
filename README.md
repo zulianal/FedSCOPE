@@ -73,22 +73,6 @@ The script will simulate the Federated Learning process:
 * Round-by-round training logs (Loss values).
 * Global aggregation updates.
 
-## 🔍 Code to Paper Mapping
-
-This implementation strictly follows the methodology described in the paper. Here is the mapping between the code modules and the paper's equations:
-
-| Paper Component | Description | Paper Section / Eq | Code Location |
-| --- | --- | --- | --- |
-| **LLM Augmentation** | Generating semantic attributes and embeddings | Sec 3.2 / Eq (2) | `dataset.py` -> `generate_semantic_embeddings` |
-| **Feature Fusion** | Fusing ID-based and Semantic embeddings | Sec 3.3 / Eq (3) | `model.py` -> `FeatureFusion` |
-| **Backbone** | Sequential Encoder (SASRec) | Sec 3.3 | `model.py` -> `SASRecEncoder` |
-| **IIDCL (Intra)** | Contrastive learning within the same domain | Sec 3.4 / Eq (4) | `losses.py` -> `iidcl_loss` |
-| **IIDCL (Inter)** | Contrastive learning across domains | Sec 3.4 / Eq (6) | `losses.py` -> `iidcl_loss` |
-| **Total Loss** | Prediction + Contrastive Loss | Eq (8) | `federated.py` -> `Client.train_round` |
-| **Adaptive Budget** | Dynamic epsilon based on data size | Eq (13) | `federated.py` -> `apply_adaptive_dp` |
-| **Adaptive Clipping** | Dynamic gradient clipping | Eq (11) | `federated.py` -> `apply_adaptive_dp` |
-| **Noise Injection** | Adding Gaussian noise | Eq (10) | `federated.py` -> `apply_adaptive_dp` |
-
 ## 🛠 Configuration (`config.py`)
 
 You can modify `config.py` to experiment with different settings:
@@ -97,8 +81,3 @@ You can modify `config.py` to experiment with different settings:
 * **`dp_epsilon_total`**: The total privacy budget.
 * **`alpha`, `lambda_intra`, `lambda_inter**`: Weights for the loss functions.
 * **`domain_a_path` / `domain_b_path**`: Paths to your specific datasets.
-
-## ⚠️ Implementation Notes
-
-* **LLM Simulation**: In the paper, a Large Language Model (like GPT) is used to infer attributes (Director, Genre, etc.) which are then embedded. In this implementation, to make it runnable locally without API costs, we use `sentence-transformers` (MiniLM) to directly encode the raw item metadata/text. This is mathematically equivalent (both produce a semantic vector ).
-* **Device**: The code automatically detects CUDA (GPU) or CPU.
